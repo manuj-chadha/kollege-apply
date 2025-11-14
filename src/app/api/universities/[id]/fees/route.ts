@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request, { params }: { params: {id: string }}) {
     const {id}=await params;
-    const url=new URL(req.url);
-    const courseId=url.searchParams.get("courseId");
+    const url=await new URL(req.url);
+    const courseId=await url.searchParams.get("courseId");
     if(!courseId){
         return NextResponse.json({error: "Missing course ID."}, {status: 400});
     }
