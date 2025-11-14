@@ -9,7 +9,7 @@ export default function Page() {
   const [courses, setCourses] = useState<any[]>([]);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
 
-  // ref for scrolling
+  // scroll ref
   const coursesRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -22,15 +22,23 @@ export default function Page() {
     load();
   }, []);
 
+  // scroll with header offset
   const scrollToCourses = () => {
-  if (!coursesRef.current) return;
+    if (!coursesRef.current) return;
+    const headerOffset = 120; // safe offset for all mobile sizes
+    const top = coursesRef.current.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
 
-  const offset = 100;
-  const top = coursesRef.current.getBoundingClientRect().top + window.scrollY - offset;
+  // format money for readability
+  const formatMoney = (n: number) => {
+    if (n >= 100000) return `₹${(n / 100000).toFixed(n % 100000 === 0 ? 0 : 1)}L`;
+    if (n >= 1000) return `₹${Math.round(n / 1000)}k`;
+    return `₹${n}`;
+  };
 
-  window.scrollTo({ top, behavior: "smooth" });
-};
-
+  const formatFeeRange = (fee: any) =>
+    `${formatMoney(fee.min)} - ${formatMoney(fee.max)}`;
 
   return (
     <div className="min-h-screen bg-gray-50 text-slate-800 antialiased">
@@ -38,7 +46,6 @@ export default function Page() {
       {/* HERO */}
       <header className="bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white pt-32 pb-12 md:pt-40 md:pb-20">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-start gap-8">
-
           <div className="flex-1">
             <p className="inline-block bg-white/10 px-3 py-1 rounded-full text-xs md:text-sm font-medium mb-4">
               Private University • Management & Health Sciences
@@ -63,7 +70,6 @@ export default function Page() {
                 <Star size={16} />
               </a>
 
-              {/* Scroll Instead of Modal */}
               <button
                 onClick={scrollToCourses}
                 className="inline-flex items-center justify-center gap-2 bg-purple-900/90 hover:bg-purple-800 px-5 py-3 rounded-lg font-medium shadow text-white transition"
@@ -71,7 +77,6 @@ export default function Page() {
                 Apply Now
               </button>
             </div>
-
           </div>
         </div>
       </header>
@@ -79,7 +84,7 @@ export default function Page() {
       {/* MAIN CONTENT */}
       <main className="max-w-7xl mx-auto px-4 md:px-8 mt-10 pb-28 md:pb-10">
 
-        {/* Courses */}
+        {/* POPULAR COURSES */}
         <section ref={coursesRef} className="py-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
             <h2 className="text-xl md:text-2xl font-semibold">Popular Courses</h2>
@@ -87,12 +92,17 @@ export default function Page() {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
+
             {courses.map((course) => (
               <article
                 key={course.courseId}
                 className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition hover:-translate-y-[2px]"
               >
-                <div className="flex flex-wrap justify-between gap-4">
+
+                {/* responsive title row */}
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4">
+
+                  {/* LEFT: name + duration */}
                   <div>
                     <h3 className="text-lg font-semibold">{course.name}</h3>
                     <p className="text-sm text-slate-500 mt-1">
@@ -100,14 +110,14 @@ export default function Page() {
                     </p>
                   </div>
 
-                  <div className="text-right">
-                    <div className="text-xs text-slate-400">Fee Range</div>
-                    <div className="font-semibold text-purple-700 text-sm sm:text-base">
-                      {course.feeRange.currency} {Math.round(course.feeRange.min / 1000)}k
-                      {" - "}
-                      {Math.round(course.feeRange.max / 1000)}k
+                  {/* RIGHT: fee range (responsive) */}
+                  <div className="flex flex-col items-start sm:items-end min-w-[120px]">
+                    <div className="text-xs text-slate-400 whitespace-nowrap">Fee Range</div>
+                    <div className="font-semibold text-purple-700 text-sm sm:text-base leading-tight break-words">
+                      {formatFeeRange(course.feeRange)}
                     </div>
                   </div>
+
                 </div>
 
                 <div className="mt-4 flex justify-end">
@@ -118,12 +128,14 @@ export default function Page() {
                     Check Course-wise Fees
                   </button>
                 </div>
+
               </article>
             ))}
+
           </div>
         </section>
 
-        {/* Facilities */}
+        {/* FACILITIES */}
         <section className="mt-10">
           <div className="grid gap-6 md:grid-cols-3">
 
@@ -166,7 +178,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Placements */}
+        {/* PLACEMENTS */}
         <section className="mt-10">
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <h3 className="text-lg font-semibold mb-4">Placements</h3>

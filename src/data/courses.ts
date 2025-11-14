@@ -8,6 +8,7 @@ export interface Course {
     currency: string;
   };
 }
+
 export const courses: Record<string, Course[]> = {
   "uni-1": [
     {
@@ -27,6 +28,26 @@ export const courses: Record<string, Course[]> = {
       feeRange: {
         min: 180000,
         max: 380000,
+        currency: "INR"
+      }
+    },
+    {
+      courseId: "mech-btech",
+      name: "B.Tech Mechanical Engineering",
+      durationMonths: 48,
+      feeRange: {
+        min: 160000,
+        max: 340000,
+        currency: "INR"
+      }
+    },
+    {
+      courseId: "bca",
+      name: "Bachelor of Computer Applications (BCA)",
+      durationMonths: 36,
+      feeRange: {
+        min: 120000,
+        max: 250000,
         currency: "INR"
       }
     }
@@ -50,6 +71,26 @@ export const courses: Record<string, Course[]> = {
       feeRange: {
         min: 250000,
         max: 600000,
+        currency: "INR"
+      }
+    },
+    {
+      courseId: "mph",
+      name: "Master of Public Health (MPH)",
+      durationMonths: 24,
+      feeRange: {
+        min: 200000,
+        max: 450000,
+        currency: "INR"
+      }
+    },
+    {
+      courseId: "bba",
+      name: "Bachelor of Business Administration (BBA)",
+      durationMonths: 36,
+      feeRange: {
+        min: 150000,
+        max: 300000,
         currency: "INR"
       }
     }

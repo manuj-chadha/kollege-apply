@@ -9,29 +9,37 @@ export default function Page() {
   const [courses, setCourses] = useState<any[]>([]);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
 
-  // ref for scrolling
   const coursesRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const load = async () => {
       const uni = await fetch(`/api/universities/uni-1`).then((r) => r.json());
       const crs = await fetch(`/api/universities/uni-1/courses`).then((r) => r.json());
-
       setUniversity(uni);
       setCourses(crs);
     };
     load();
   }, []);
 
+  // header offset scroll
   const scrollToCourses = () => {
-  if (!coursesRef.current) return;
+    if (!coursesRef.current) return;
 
-  const offset = 100; 
-  const top = coursesRef.current.getBoundingClientRect().top + window.scrollY - offset;
+    const offset = 120;
+    const top = coursesRef.current.getBoundingClientRect().top + window.scrollY - offset;
 
-  window.scrollTo({ top, behavior: "smooth" });
-};
+    window.scrollTo({ top, behavior: "smooth" });
+  };
 
+  // format fee cleanly
+  const formatMoney = (n: number) => {
+    if (n >= 100000) return `₹${(n / 100000).toFixed(n % 100000 === 0 ? 0 : 1)}L`;
+    if (n >= 1000) return `₹${Math.round(n / 1000)}k`;
+    return `₹${n}`;
+  };
+
+  const formatFeeRange = (fee: any) =>
+    `${formatMoney(fee.min)} - ${formatMoney(fee.max)}`;
 
   return (
     <div className="min-h-screen bg-gray-50 text-slate-800 antialiased">
@@ -63,7 +71,6 @@ export default function Page() {
                 <ArrowRight size={16} />
               </a>
 
-              {/* Scroll Instead of Opening Modal */}
               <button
                 onClick={scrollToCourses}
                 className="inline-flex items-center justify-center gap-2 bg-sky-900/90 hover:bg-sky-800 px-5 py-3 rounded-lg font-medium shadow text-white transition"
@@ -75,10 +82,10 @@ export default function Page() {
         </div>
       </header>
 
-      {/* CONTENT */}
+      {/* MAIN */}
       <main className="max-w-7xl mx-auto px-4 md:px-8 mt-10 pb-28 md:pb-10">
 
-        {/* Courses */}
+        {/* COURSES */}
         <section ref={coursesRef} className="py-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
             <h2 className="text-xl md:text-2xl font-semibold">Popular Courses</h2>
@@ -91,8 +98,10 @@ export default function Page() {
                 key={course.courseId}
                 className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition hover:-translate-y-[2px]"
               >
-                <div className="flex flex-wrap justify-between gap-4">
 
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4">
+
+                  {/* LEFT */}
                   <div>
                     <h3 className="text-lg font-semibold">{course.name}</h3>
                     <p className="text-sm text-slate-500 mt-1">
@@ -100,10 +109,11 @@ export default function Page() {
                     </p>
                   </div>
 
-                  <div className="text-right">
-                    <div className="text-xs text-slate-400">Fee Range</div>
-                    <div className="font-semibold text-sm sm:text-base">
-                      {course.feeRange.currency} {Math.round(course.feeRange.min / 1000)}k - {Math.round(course.feeRange.max / 1000)}k
+                  {/* RIGHT FEE RANGE */}
+                  <div className="flex flex-col items-start sm:items-end min-w-[120px]">
+                    <div className="text-xs text-slate-400 whitespace-nowrap">Fee Range</div>
+                    <div className="font-semibold text-sky-700 text-sm sm:text-base leading-tight break-words">
+                      {formatFeeRange(course.feeRange)}
                     </div>
                   </div>
 
@@ -117,14 +127,16 @@ export default function Page() {
                     Check Course-wise Fees
                   </button>
                 </div>
+
               </article>
             ))}
           </div>
         </section>
 
-        {/* Facilities */}
+        {/* FACILITIES */}
         <section className="mt-10">
           <div className="grid gap-6 md:grid-cols-3">
+
             <div className="bg-white rounded-2xl p-5 shadow-sm flex gap-4 items-start">
               <div className="p-3 rounded-lg bg-sky-50">
                 <Building className="text-sky-600" />
@@ -160,10 +172,11 @@ export default function Page() {
                 </p>
               </div>
             </div>
+
           </div>
         </section>
 
-        {/* Placements */}
+        {/* PLACEMENTS */}
         <section className="mt-10">
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <h3 className="text-lg font-semibold mb-4">Placements</h3>
