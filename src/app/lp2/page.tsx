@@ -197,17 +197,6 @@ export default function Page() {
 
       </main>
 
-      {/* Sticky CTA (mobile) */}
-      <div className="fixed bottom-0 left-0 right-0 md:hidden bg-white/95 backdrop-blur-sm border-t shadow-lg p-3 flex justify-between items-center z-50">
-        <div className="font-medium text-sm">Ready to apply?</div>
-        <button
-          onClick={scrollToCourses}
-          className="bg-purple-700 text-white px-4 py-2 rounded text-sm"
-        >
-          Apply Now
-        </button>
-      </div>
-
       {selectedCourseId && (
         <FeeModal
           universityId="uni-2"
