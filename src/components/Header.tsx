@@ -13,11 +13,11 @@ export default function Header() {
 
         {/* Nav */}
         <nav className="flex items-center gap-8">
-          <Link href="/lp1" className="text-md font-bold text-gray-800 hover:text-blue-600 transition">
+          <Link href="/lp1" className="text-md font-bold text-gray-800 hover:text-gray-900 transition">
             LP1
           </Link>
 
-          <Link href="/lp2" className="text-md font-bold text-gray-800 hover:text-purple-600 transition">
+          <Link href="/lp2" className="text-md font-bold text-gray-800 hover:text-gray-900 transition">
             LP2
           </Link>
         </nav>

@@ -23,7 +23,7 @@ export default function Page() {
     <div className="min-h-screen bg-gray-50 text-slate-800 antialiased">
       {/* HERO */}
       <header className="bg-gradient-to-r from-sky-600 to-indigo-700 text-white">
-        <div className="max-w-6xl mx-auto px-6 md:px-8 py-16 md:py-28 flex flex-col md:flex-row items-start gap-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 py-16 md:py-28 flex flex-col md:flex-row items-start gap-8">
           <div className="flex-1">
             <p className="inline-block bg-white/10 px-3 py-1 rounded-full text-sm font-medium mb-4">Private University • Engineering & Business</p>
             <h1 className="text-3xl md:text-5xl font-extrabold leading-tight drop-shadow-sm">
@@ -71,7 +71,7 @@ export default function Page() {
       </header>
 
       {/* CONTENT */}
-      <main className="max-w-6xl mx-auto px-6 md:px-8 mt-10">
+      <main className="max-w-7xl mx-auto px-6 md:px-8 mt-10">
         {/* Courses */}
         <section className="bg-transparent py-8">
           <div className="flex items-center justify-between mb-6">
